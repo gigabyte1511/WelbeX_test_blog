@@ -1,21 +1,29 @@
+import { type Response, type Request, type NextFunction } from 'express'
 import * as jwtService from '../services/jwtService'
 
-export const checkAuth = (req, res, next) => {
+interface checkAuthRequest extends Request {
+  userID: string
+  userToken: string
+}
+
+export const checkAuth = async (req: checkAuthRequest, res: Response, next: NextFunction): Promise<void> => {
   console.log(req.headers)
   if (!req.headers.authorization) {
-    return res.sendStatus(401)
+    res.sendStatus(401)
+    return
   }
 
   const token = req.headers.authorization.split(' ')[1]
 
   try {
     const { id } = jwtService.checkToken(token)
-    req.userID = id
+    req.userID = id as string
     req.userToken = token
   } catch (error) {
     console.log(error)
-    return res.sendStatus(401)
+    res.sendStatus(401)
+    return
   }
 
-  return next()
+  next()
 }

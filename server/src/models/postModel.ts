@@ -1,8 +1,21 @@
 // Определение модели продукта
 import sequelize from './index'
-import { DataTypes } from 'sequelize'
+import { DataTypes, type Model } from 'sequelize'
+import { type UserInstance } from './userModel'
 
-export const PostModel = sequelize.define('post', {
+interface PostAttributes {
+  post_header: string
+  post_text: string
+  post_previewURL: string
+  id?: number
+}
+export interface PostInstance extends Model<PostAttributes>, PostAttributes { }
+
+interface PostWithUser extends PostInstance {
+  user: UserInstance
+}
+
+export const PostModel = sequelize.define<PostInstance>('post', {
   post_header: {
     type: DataTypes.STRING,
     defaultValue: 'noName'

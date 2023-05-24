@@ -1,21 +1,24 @@
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import * as jwtService from './jwtService'
-import { UserModel } from '../models/userModel'
+import { type UserInstance, UserModel } from '../models/userModel'
+import { type SignUp } from '../types/UserType'
+import { Response } from 'express-serve-static-core'
+import { Request } from 'express'
 
-export const checkEmailUnique = async (email) => {
+export const checkEmailUnique = async (email: string): Promise<boolean> => {
   console.log(email)
   const allUsers = await UserModel.findAll({ raw: true })
   return !allUsers.some((user) => user.email.toLowerCase() === email.toLowerCase())
 }
 
-export const createUser = async (userObj) => {
+export const createUser = async (userObj: SignUp): Promise<UserInstance> => {
   const hashPassword = await bcrypt.hash(
     userObj.password,
     10
-  )
+  ) as string
 
-  const newUserID = uuidv4()
+  const newUserID = uuidv4() as string
 
   const newRefreshToken = jwtService.createRefreshToken({ id: newUserID })
 
@@ -31,7 +34,18 @@ export const createUser = async (userObj) => {
   }
 }
 
-export const authenticateUser = async (userObj) => {
+export const signOut = async (userID: string): Promise<void> => {
+  const id = userID
+  const preparedUser = { id, refreshToken: '' }
+  await UserModel.update(preparedUser, {
+    where: { id: [id] }
+  })
+}
+interface UserWithAccessTokend extends UserInstance {
+  accessToken: string
+}
+
+export const authenticateUser = async (userObj: SignUp): Promise<UserWithAccessTokend> => {
   const allUsers = await UserModel.findAll({ raw: true })
 
   const findedInDBUser = allUsers.find(
@@ -57,10 +71,20 @@ export const authenticateUser = async (userObj) => {
   }
 }
 
-export const signOut = async (userID) => {
-  const { id } = userID
-  const preparedUser = { id, refreshToken: '' }
-  await UserModel.update(preparedUser, {
-    where: { id: [id] }
-  })
+export const refresh = async (req: Request, res: Response): Promise<{ accessToken: string, refreshToken: string }> => {
+  const user = await UserModel.findByPk(req.userID) as UserInstance
+  if (user == null) {
+    res
+      .status(401)
+      .json('User not found')
+    return
+  }
+  const accessToken = jwtService.createAccessToken({ id: user.id })
+  const refreshToken = jwtService.createRefreshToken({ id: user.id })
+  await user.update{ refreshToken }
+
+  return {
+    accessToken,
+    refreshToken
+  }
 }

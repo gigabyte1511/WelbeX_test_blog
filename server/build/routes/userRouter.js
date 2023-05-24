@@ -17,4 +17,6 @@ userRouter.route('/signIn')
 // Выход администратора из системы
 userRouter.route('/signOut')
     .post(authGuard_1.checkAuth, signController_1.signOut);
+userRouter.route('/refresh')
+    .get(authGuard_1.checkAuth, signController_1.refreshToken);
 exports.default = userRouter;

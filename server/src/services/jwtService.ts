@@ -1,7 +1,7 @@
 
-import jwt from 'jsonwebtoken'
+import jwt, { type JwtPayload } from 'jsonwebtoken'
 
-export const createAccessToken = (payload) => jwt.sign(
+export const createAccessToken = (payload: { id: string }): string => jwt.sign(
   payload,
   process.env.JWT_SECRET,
   {
@@ -9,7 +9,7 @@ export const createAccessToken = (payload) => jwt.sign(
   }
 )
 
-export const createRefreshToken = (payload) => jwt.sign(
+export const createRefreshToken = (payload: { id: string }): string => jwt.sign(
   payload,
   process.env.JWT_SECRET,
   {
@@ -17,11 +17,11 @@ export const createRefreshToken = (payload) => jwt.sign(
   }
 )
 
-export const checkToken = (accessToken) => {
+export const checkToken = (accessToken: string): JwtPayload => {
   try {
-    return jwt.verify(accessToken, process.env.JWT_SECRET)
-  } catch (error) {
+    return jwt.verify(accessToken, process.env.JWT_SECRET) as JwtPayload
+  } catch (error: unknown) {
     console.log(error)
-    throw new Error(error.message)
+    throw new Error((error as Error).message)
   }
 }

@@ -84,7 +84,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signOut = exports.authenticateUser = exports.createUser = exports.checkEmailUnique = void 0;
+exports.refresh = exports.authenticateUser = exports.signOut = exports.createUser = exports.checkEmailUnique = void 0;
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var uuid_1 = require("uuid");
 var jwtService = __importStar(require("./jwtService"));
@@ -121,6 +121,23 @@ var createUser = function (userObj) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.createUser = createUser;
+var signOut = function (userID) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, preparedUser;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                id = userID;
+                preparedUser = { id: id, refreshToken: '' };
+                return [4 /*yield*/, userModel_1.UserModel.update(preparedUser, {
+                        where: { id: [id] }
+                    })];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.signOut = signOut;
 var authenticateUser = function (userObj) { return __awaiter(void 0, void 0, void 0, function () {
     var allUsers, findedInDBUser, _a, accessToken, refreshToken, email, password, restFindedInDBUser;
     return __generator(this, function (_b) {
@@ -129,7 +146,7 @@ var authenticateUser = function (userObj) { return __awaiter(void 0, void 0, voi
             case 1:
                 allUsers = _b.sent();
                 findedInDBUser = allUsers.find(function (user) { return user.email.toLowerCase() === userObj.email.toLowerCase(); });
-                _a = !findedInDBUser;
+                _a = (findedInDBUser == null);
                 if (_a) return [3 /*break*/, 3];
                 return [4 /*yield*/, bcrypt_1.default.compare(userObj.password, findedInDBUser.password)];
             case 2:
@@ -144,7 +161,7 @@ var authenticateUser = function (userObj) { return __awaiter(void 0, void 0, voi
                 findedInDBUser.refreshToken = refreshToken;
                 email = findedInDBUser.email;
                 return [4 /*yield*/, userModel_1.UserModel.update(findedInDBUser, {
-                        where: { email: [email] },
+                        where: { email: [email] }
                     })];
             case 4:
                 _b.sent();
@@ -154,20 +171,32 @@ var authenticateUser = function (userObj) { return __awaiter(void 0, void 0, voi
     });
 }); };
 exports.authenticateUser = authenticateUser;
-var signOut = function (userID) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, preparedUser;
+var refresh = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, accessToken, refreshToken;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                id = userID.id;
-                preparedUser = { id: id, refreshToken: '' };
-                return [4 /*yield*/, userModel_1.UserModel.update(preparedUser, {
-                        where: { id: [id] },
-                    })];
+            case 0: return [4 /*yield*/, userModel_1.UserModel.findByPk(req.userID)];
             case 1:
+                user = _a.sent();
+                if (user == null) {
+                    res
+                        .status(401)
+                        .json('User not found');
+                    return [2 /*return*/];
+                }
+                accessToken = jwtService.createAccessToken({ id: user.id });
+                refreshToken = jwtService.createRefreshToken({ id: user.id });
+                return [4 /*yield*/, user.update];
+            case 2:
                 _a.sent();
-                return [2 /*return*/];
+                {
+                    refreshToken;
+                }
+                return [2 /*return*/, {
+                        accessToken: accessToken,
+                        refreshToken: refreshToken
+                    }];
         }
     });
 }); };
-exports.signOut = signOut;
+exports.refresh = refresh;

@@ -1,9 +1,12 @@
 import express from 'express'
+
+// const { sequelize } = require('./src/models/index')
+
 import sequelize from './models/index'
 import postRouter from './routes/postRouter'
 import userRouter from './routes/userRouter'
-import cors from 'cors'
 import * as dotenv from 'dotenv'
+import cors from 'cors'
 dotenv.config()
 
 const server = express()

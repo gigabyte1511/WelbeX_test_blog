@@ -59,7 +59,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signOut = exports.signIn = exports.signUp = void 0;
+exports.refreshToken = exports.signOut = exports.signIn = exports.signUp = void 0;
 var authValidator = __importStar(require("../validators/authValidator"));
 var utils_1 = require("../validators/utils");
 var authService = __importStar(require("../services/authService"));
@@ -172,3 +172,28 @@ var signOut = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 exports.signOut = signOut;
+var refreshToken = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, _b, error_7;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                _c.trys.push([0, 2, , 3]);
+                _b = (_a = res).json;
+                return [4 /*yield*/, authService.refresh(req)];
+            case 1:
+                _b.apply(_a, [_c.sent()]);
+                return [3 /*break*/, 3];
+            case 2:
+                error_7 = _c.sent();
+                console.log({ error: error_7 });
+                if (error_7.message === '401') {
+                    res.sendStatus(401);
+                    return [2 /*return*/];
+                }
+                res.sendStatus(500);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.refreshToken = refreshToken;

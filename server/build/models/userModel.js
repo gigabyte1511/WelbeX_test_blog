@@ -12,29 +12,29 @@ exports.UserModel = index_1.default.define('user', {
     id: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true
     },
     username: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
     },
     email: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
     },
     password: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
     },
     refreshToken: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false,
-    },
+        allowNull: false
+    }
 });
 exports.UserModel.hasMany(postModel_1.PostModel, {
     onDelete: 'CASCADE',
-    foreignKey: 'userId',
+    foreignKey: 'userId'
 });
 postModel_1.PostModel.belongsTo(exports.UserModel, {
-    foreignKey: 'userId',
+    foreignKey: 'userId'
 });

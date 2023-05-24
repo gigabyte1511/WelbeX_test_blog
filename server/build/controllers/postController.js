@@ -42,29 +42,36 @@ var postValidator_1 = require("../validators/postValidator");
 var utils_1 = require("../validators/utils");
 var userModel_1 = require("../models/userModel");
 var getAllPosts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var alllPosts, error_1;
+    var limit, offset, alllPosts, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                limit = (req.query.limits !== undefined) ? Number(req.query.limits) : undefined;
+                offset = (req.query.page !== undefined) ? (Number(req.query.page) - 1) * Number(req.query.limits) : undefined;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, postModel_1.PostModel.findAll({
+                        limit: limit,
+                        offset: offset,
                         include: {
                             model: userModel_1.UserModel,
                             attributes: { exclude: ['password', 'refreshToken', 'createdAt', 'updatedAt'] }
-                        }
+                        },
+                        order: [['createdAt', 'DESC']]
                     })];
-            case 1:
+            case 2:
                 alllPosts = _a.sent();
                 res
                     .status(200)
                     .json(alllPosts);
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 4];
+            case 3:
                 error_1 = _a.sent();
                 console.log(error_1);
                 res.sendStatus(500);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
@@ -84,7 +91,7 @@ var getPostByID = function (req, res) { return __awaiter(void 0, void 0, void 0,
                     })];
             case 1:
                 postByID = _a.sent();
-                if (!postByID) {
+                if (postByID == null) {
                     res
                         .status(400)
                         .json('Post not found');
@@ -157,7 +164,7 @@ var deletePostByID = function (req, res) { return __awaiter(void 0, void 0, void
                     })];
             case 1:
                 postByID = _a.sent();
-                if (!postByID) {
+                if (postByID == null) {
                     res
                         .status(400)
                         .json('Post not found');
@@ -166,13 +173,13 @@ var deletePostByID = function (req, res) { return __awaiter(void 0, void 0, void
                 if (postByID.user.id !== req.userID) {
                     res
                         .status(403)
-                        .json("You have not permissions");
+                        .json('You have not permissions');
                     return [2 /*return*/];
                 }
                 return [4 /*yield*/, postModel_1.PostModel.destroy({
                         where: {
-                            id: [id],
-                        },
+                            id: [id]
+                        }
                     })];
             case 2:
                 resFromDB = _a.sent();
@@ -206,7 +213,7 @@ var updatePostByID = function (req, res) { return __awaiter(void 0, void 0, void
                     })];
             case 1:
                 postByID = _a.sent();
-                if (!postByID) {
+                if (postByID == null) {
                     res
                         .status(400)
                         .json('Post not found');
@@ -215,7 +222,7 @@ var updatePostByID = function (req, res) { return __awaiter(void 0, void 0, void
                 if (postByID.user.id !== req.userID) {
                     res
                         .status(403)
-                        .json("You have not permissions");
+                        .json('You have not permissions');
                     return [2 /*return*/];
                 }
                 return [4 /*yield*/, postByID.update(req.body)];
