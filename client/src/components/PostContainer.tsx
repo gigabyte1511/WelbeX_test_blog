@@ -1,12 +1,12 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { PostInfoContainer } from './PostInfoContainer'
-import { type PostFromDB } from '../API/api'
 import PostDetailContainer from './PostDetailContainer'
 import PostEditButton from './buttons/PostEditButton'
+import { type IPost } from '../types/PostType'
 
 interface Props {
-    postInfo: PostFromDB
+    postInfo: IPost
 }
 export default function PostContainer({ postInfo }: Props): JSX.Element {
     return (

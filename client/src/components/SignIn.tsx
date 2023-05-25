@@ -39,10 +39,10 @@ export default function SignIn(): JSX.Element {
             dispatch(setUserID(data.id))
             navigate('/')
         },
-        onError: (error) => { console.log('Error', error) }
+        onError: (error: { message: string }) => { console.log('Error', error) }
     })
 
-    const initialValue: IUser = {}
+    const initialValue = {}
     const handleSubmit = (values: IUser): void => {
         mutate({
             email: values.email,
