@@ -5,7 +5,9 @@ import { removeAccessToken, removeRefreshToken, removeUserID, setAccessToken, se
 import { type ReduxState } from '../redux/initialStore'
 import { type IPost } from '../types/PostType'
 
-interface IMutate extends IPost {
+interface IMutate {
+  id?: string
+  data: IPost
   accessToken: string
 }
 export function useTokenRefresh(mutatePropFn: MutationFunction<IPostResponse, IMutate>, formData: IPost) {
