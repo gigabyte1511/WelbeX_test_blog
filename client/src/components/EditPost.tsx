@@ -5,7 +5,7 @@ import { ErrorMessage, Form, Formik } from 'formik'
 import { TextField, Typography, styled } from '@mui/material'
 import * as yup from 'yup'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { updatePostByID } from '../API/api'
+import { type IPostResponse, updatePostByID } from '../API/api'
 import { GET_ALLPOSTS_QUERY_KEY } from './PostsAccordion'
 import { type IPost } from '../types/PostType'
 import { useSelector } from 'react-redux'
@@ -35,12 +35,20 @@ const style = {
 }
 
 export default function EditPost(): JSX.Element {
-    const { state } = useLocation()
+    const { state }: { state: IPostResponse } = useLocation()
     const accessToken = useSelector((store: ReduxState) => store.user.accessToken)
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const [formData, setFormData] = useState()
+    const [formData, setFormData] = useState<{ id: number, data: IPost, accessToken: string }>({
+        id: '',
+        data: {
+            post_previewURL: '',
+            post_header: '',
+            post_text: ''
+        },
+        accessToken: ''
+    })
 
     const { mutate } = useMutation({
         mutationKey: [EDIT_POST_QUERY_KEY],

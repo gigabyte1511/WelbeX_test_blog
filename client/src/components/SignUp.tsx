@@ -40,7 +40,11 @@ export default function SignUp(): JSX.Element {
         },
         onError: (error: { message: string }) => { console.log('Error', error) }
     })
-    const initialValue = {}
+    const initialValue: IUser = {
+        username: '',
+        email: '',
+        password: ''
+    }
     const handleSubmit = (values: IUser): void => {
         mutate({
             username: values.username,

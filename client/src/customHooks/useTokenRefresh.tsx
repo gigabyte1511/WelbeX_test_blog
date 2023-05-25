@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { removeAccessToken, removeRefreshToken, removeUserID, setAccessToken, setRefreshToken } from '../redux/slices/userSlice'
 import { type ReduxState } from '../redux/initialStore'
 
-export function useTokenRefresh(mutatePropFn, formData) {
+export function useTokenRefresh(mutatePropFn, formData: IPost) {
   const dispatch = useDispatch()
   const refreshToken = useSelector((store: ReduxState) => store.user.refreshToken)
   const accessToken = useSelector((store: ReduxState) => store.user.accessToken)

@@ -39,7 +39,14 @@ export default function NewPost(): JSX.Element {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const [formData, setFormData] = useState({})
+    const [formData, setFormData] = useState<{ data: IPost, accessToken: string }>({
+        data: {
+            post_previewURL: '',
+            post_header: '',
+            post_text: ''
+        },
+        accessToken: ''
+    })
 
     const { mutate } = useMutation({
         mutationKey: [ADD_NEW_POST_QUERY_KEY],
@@ -59,7 +66,11 @@ export default function NewPost(): JSX.Element {
     const handleClose = (): void => {
         navigate(-1)
     }
-    const initialValue: IPost = {}
+    const initialValue: IPost = {
+        post_previewURL: '',
+        post_header: '',
+        post_text: ''
+    }
     const handleSubmit = (values: IPost): void => {
         setFormData({
             data: {
