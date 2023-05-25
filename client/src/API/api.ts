@@ -4,6 +4,9 @@ import { type IUser } from '../types/UserType'
 interface IErrorResponse {
     message: string
 }
+interface ISignErrorResponse {
+    error: string
+}
 interface IAllPostsQueryParams {
     queryKey: [string, {
         page: number
@@ -20,7 +23,7 @@ interface IPostsCountResponse {
 // }
 
 interface INewPostResponse extends IPost {
-    id: number
+    id: string
     userId: string
     updatedAt: string
     createdAt: string
@@ -112,7 +115,7 @@ export const deletePostByID = async ({ id, token }: { id: number, token: string 
 }
 
 // update post from server by post id
-export const updatePostByID = async ({ id, data, accessToken }: { id: number, data: IPost, accessToken: string }): Promise<INewPostResponse> => {
+export const updatePostByID = async ({ id, data, accessToken }: { id: string, data: IPost, accessToken: string }): Promise<INewPostResponse> => {
     const request = await fetch(`${baseURL}/api/v0.1/post/${id}`, {
         method: 'PATCH',
         headers: {
@@ -153,7 +156,7 @@ export const signUp = async (data: IUser): Promise<IUserSiInResponse> => {
         body: JSON.stringify(data)
     })
     if (request.status !== 200) {
-        const errorMessage = await request.json() as IErrorResponse
+        const errorMessage = await request.json() as ISignErrorResponse
         throw new Error(errorMessage.error)
     }
     return await signIn(data)
@@ -169,7 +172,7 @@ export const signIn = async (data: IUser): Promise<IUserSiInResponse> => {
         body: JSON.stringify(data)
     })
     if (request.status !== 200) {
-        const data = await request.json() as IErrorResponse
+        const data = await request.json() as ISignErrorResponse
         throw new Error(data.error)
     }
     return await request.json() as IUserSiInResponse

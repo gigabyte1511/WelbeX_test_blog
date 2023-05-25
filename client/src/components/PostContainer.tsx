@@ -3,10 +3,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { PostInfoContainer } from './PostInfoContainer'
 import PostDetailContainer from './PostDetailContainer'
 import PostEditButton from './buttons/PostEditButton'
-import { type IPost } from '../types/PostType'
+import { type IPostResponse } from '../API/api'
 
 interface Props {
-    postInfo: IPost
+    postInfo: IPostResponse
 }
 export default function PostContainer({ postInfo }: Props): JSX.Element {
     return (

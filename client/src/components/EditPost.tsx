@@ -40,7 +40,7 @@ export default function EditPost(): JSX.Element {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const [formData, setFormData] = useState<{ id: number, data: IPost, accessToken: string }>({
+    const [formData, setFormData] = useState<{ id: string, data: IPost, accessToken: string }>({
         id: '',
         data: {
             post_previewURL: '',
