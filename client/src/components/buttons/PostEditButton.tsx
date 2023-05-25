@@ -2,11 +2,11 @@ import { Fab } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { type PostFromDB } from '../../API/api'
 import { type ReduxState } from '../../redux/initialStore'
+import { type IPostResponse } from '../../API/api'
 
 interface Props {
-    postInfo: PostFromDB
+    postInfo: IPostResponse
 }
 
 export default function PostEditButton({ postInfo }: Props): JSX.Element {

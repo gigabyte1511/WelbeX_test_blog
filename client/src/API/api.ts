@@ -18,11 +18,15 @@ interface IPostsCountResponse {
 //         id: number
 //     }]
 // }
+
 interface INewPostResponse extends IPost {
     id: number
     userId: string
     updatedAt: string
     createdAt: string
+}
+export interface IPostResponse extends INewPostResponse {
+    user: IUserSignUpResponse
 }
 
 interface IUserSignUpResponse {
@@ -41,14 +45,14 @@ interface IUserSiInResponse extends IUserSignUpResponse {
 const baseURL = 'http://localhost:3050'
 
 // get all posts from server
-export const getAllPosts = async ({ queryKey }: IAllPostsQueryParams): Promise<IPost[]> => {
+export const getAllPosts = async ({ queryKey }: IAllPostsQueryParams): Promise<IPostResponse[]> => {
     const request = await fetch(`${baseURL}/api/v0.1/post?page=${queryKey[1].page}&limits=${queryKey[1].limits}`, {
         method: 'GET'
     })
     if (request.status !== 200) {
         throw new Error(request.statusText)
     }
-    return await request.json() as IPost[]
+    return await request.json() as IPostResponse[]
 }
 
 // get posts count from server

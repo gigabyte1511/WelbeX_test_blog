@@ -39,7 +39,7 @@ export default function NewPost(): JSX.Element {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const [formData, setFormData] = useState()
+    const [formData, setFormData] = useState({})
 
     const { mutate } = useMutation({
         mutationKey: [ADD_NEW_POST_QUERY_KEY],
