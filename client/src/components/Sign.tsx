@@ -1,5 +1,5 @@
 import { Box, Modal, Switch, Typography, styled } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { type ChangeEvent, useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 const style = {
@@ -28,7 +28,7 @@ export default function Sign(): JSX.Element {
         else navigate('signIn')
     }, [checked])
 
-    const handleChange = (event): void => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         setChecked(event.target.checked)
     }
     const handleClose = (): void => {

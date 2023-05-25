@@ -11,6 +11,7 @@ import { type IPost } from '../types/PostType'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useTokenRefresh } from '../customHooks/useTokenRefresh'
+import { type ReduxState } from '../redux/initialStore'
 
 export const ADD_NEW_POST_QUERY_KEY = 'ADD_NEW_POST_QUERY_KEY'
 
@@ -34,7 +35,7 @@ const style = {
 }
 
 export default function NewPost(): JSX.Element {
-    const accessToken = useSelector((store) => store.user.accessToken)
+    const accessToken = useSelector((store: ReduxState) => store.user.accessToken)
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 

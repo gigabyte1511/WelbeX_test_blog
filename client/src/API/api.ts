@@ -1,33 +1,38 @@
 import { type IPost } from '../types/PostType'
 import { type IUser } from '../types/UserType'
 
-interface ErrorResponse {
+interface IErrorResponse {
     message: string
 }
-export interface PostFromDB extends IPost {
-    user: IUser
-}
-interface AllPostsQueryParams {
+interface IAllPostsQueryParams {
     queryKey: [string, {
         page: number
         limits: number
     }]
 }
-interface PostsByIDQueryParams {
-    queryKey: [string, {
-        id: number
-    }]
+interface IPostsCountResponse {
+    posts_count: number
 }
-interface UserFromDBSignUp {
+// interface IPostsByIDQueryParams {
+//     queryKey: [string, {
+//         id: number
+//     }]
+// }
+interface INewPostResponse extends IPost {
+    id: number
+    userId: string
+    updatedAt: string
+    createdAt: string
+}
+
+interface IUserSignUpResponse {
     username: string
     email: string
     id: string
     updatedAt: string
     createdAt: string
-    refreshToken: string
-    accessToken: string
 }
-interface UserFromDBSignIn extends UserFromDBSignUp {
+interface IUserSiInResponse extends IUserSignUpResponse {
     refreshToken: string
     accessToken: string
 }
@@ -35,39 +40,41 @@ interface UserFromDBSignIn extends UserFromDBSignUp {
 // const baseURL = 'https://www.amazon-ec2.gigabyte-server.ru'
 const baseURL = 'http://localhost:3050'
 
-export const getAllPosts = async ({ queryKey }: AllPostsQueryParams): Promise<PostFromDB[]> => {
+// get all posts from server
+export const getAllPosts = async ({ queryKey }: IAllPostsQueryParams): Promise<IPost[]> => {
     const request = await fetch(`${baseURL}/api/v0.1/post?page=${queryKey[1].page}&limits=${queryKey[1].limits}`, {
         method: 'GET'
     })
     if (request.status !== 200) {
-        const data = await request.json() as ErrorResponse
-        throw new Error(data.message)
+        throw new Error(request.statusText)
     }
-    return await request.json() as PostFromDB[]
+    return await request.json() as IPost[]
 }
 
-export const getPostsCount = async (): Promise<PostFromDB[]> => {
+// get posts count from server
+export const getPostsCount = async (): Promise<IPostsCountResponse> => {
     const request = await fetch(`${baseURL}/api/v0.1/post/count`, {
         method: 'GET'
     })
     if (request.status !== 200) {
         throw new Error(request.statusText)
     }
-    return await request.json() as PostFromDB[]
+    return await request.json() as IPostsCountResponse
 }
 
-export const getPostByID = async ({ queryKey }: PostsByIDQueryParams): Promise<PostFromDB> => {
-    const request = await fetch(`${baseURL}/api/v0.1/post/${queryKey[1].id}`, {
-        method: 'GET'
-    })
-    if (request.status !== 200) {
-        const data = await request.json() as ErrorResponse
-        throw new Error(data.message)
-    }
-    return await request.json() as PostFromDB
-}
+// get post from server by id
+// export const getPostByID = async ({ queryKey }: IPostsByIDQueryParams): Promise<IPost> => {
+//     const request = await fetch(`${baseURL}/api/v0.1/post/${queryKey[1].id}`, {
+//         method: 'GET'
+//     })
+//     if (request.status !== 200) {
+//         throw new Error(request.statusText)
+//     }
+//     return await request.json() as PostFromDB
+// }
 
-export const addNewPost = async ({ data, accessToken }: { data: IPost, accessToken: string }): Promise<PostFromDB> => {
+// add new post to server
+export const addNewPost = async ({ data, accessToken }: { data: IPost, accessToken: string }): Promise<INewPostResponse> => {
     const request = await fetch(`${baseURL}/api/v0.1/post/`, {
         method: 'POST',
         headers: {
@@ -77,12 +84,31 @@ export const addNewPost = async ({ data, accessToken }: { data: IPost, accessTok
         body: JSON.stringify(data)
     })
     if (request.status !== 200) {
-        throw new Error(request.statusText)
+        const data = await request.json() as IErrorResponse
+        throw new Error(data.message)
     }
-    return await request.json() as PostFromDB
+    return await request.json() as INewPostResponse
 }
 
-export const updatePostByID = async ({ id, data, accessToken }: { id: number, data: IPost, accessToken: string }): Promise<PostFromDB> => {
+// delete post from server by post id
+export const deletePostByID = async ({ id, token }: { id: number, token: string }): Promise<string> => {
+    const request = await fetch(`${baseURL}/api/v0.1/post/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            authorization: `Bearer ${token}`
+
+        }
+    })
+    if (request.status !== 200) {
+        const data = await request.json() as IErrorResponse
+        throw new Error(data.message)
+    }
+    return await request.json() as string
+}
+
+// update post from server by post id
+export const updatePostByID = async ({ id, data, accessToken }: { id: number, data: IPost, accessToken: string }): Promise<INewPostResponse> => {
     const request = await fetch(`${baseURL}/api/v0.1/post/${id}`, {
         method: 'PATCH',
         headers: {
@@ -94,25 +120,10 @@ export const updatePostByID = async ({ id, data, accessToken }: { id: number, da
     if (request.status !== 200) {
         throw new Error(request.statusText)
     }
-    return await request.json() as PostFromDB
+    return await request.json() as INewPostResponse
 }
 
-export const deletePostByID = async ({ id, token }: { id: number, token: string }): Promise<string> => {
-    const request = await fetch(`${baseURL}/api/v0.1/post/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            authorization: `Bearer ${token}`
-
-        }
-    })
-    if (request.status !== 200) {
-        const data = await request.json() as ErrorResponse
-        throw new Error(data.message)
-    }
-    return await request.json() as string
-}
-
+// refresh token method
 export const refresh = async (refreshToken: string): Promise<{ accessToken: string, refreshToken: string }> => {
     console.log('refresh api')
     const request = await fetch(`${baseURL}/api/v0.1/user/refresh`, {
@@ -128,7 +139,8 @@ export const refresh = async (refreshToken: string): Promise<{ accessToken: stri
     return await request.json() as { accessToken: string, refreshToken: string }
 }
 
-export const signUp = async (data: IUser): Promise<UserFromDBSignUp> => {
+// signUp method
+export const signUp = async (data: IUser): Promise<IUserSiInResponse> => {
     const request = await fetch(`${baseURL}/api/v0.1/user/signUp`, {
         method: 'POST',
         headers: {
@@ -137,17 +149,14 @@ export const signUp = async (data: IUser): Promise<UserFromDBSignUp> => {
         body: JSON.stringify(data)
     })
     if (request.status !== 200) {
-        const errorMessage = await request.json() as ErrorResponse
+        const errorMessage = await request.json() as IErrorResponse
         throw new Error(errorMessage.error)
     }
-    const userFromDB = await request.json()
-    console.log('userFromDB', userFromDB)
-    console.log('data', data)
-
-    return await signIn({ email: data.email, password: data.password })
-    // return await request.json() as UserFromDBSignUp
+    return await signIn(data)
 }
-export const signIn = async (data: IUser): Promise<UserFromDBSignIn> => {
+
+// signIn method
+export const signIn = async (data: IUser): Promise<IUserSiInResponse> => {
     const request = await fetch(`${baseURL}/api/v0.1/user/signIn`, {
         method: 'POST',
         headers: {
@@ -156,11 +165,13 @@ export const signIn = async (data: IUser): Promise<UserFromDBSignIn> => {
         body: JSON.stringify(data)
     })
     if (request.status !== 200) {
-        const data = await request.json() as ErrorResponse
+        const data = await request.json() as IErrorResponse
         throw new Error(data.error)
     }
-    return await request.json() as UserFromDBSignIn
+    return await request.json() as IUserSiInResponse
 }
+
+// signOut method
 export const signOut = async ({ accessToken }: { accessToken: string }): Promise<string> => {
     const request = await fetch(`${baseURL}/api/v0.1/user/signOut`, {
         method: 'POST',
@@ -169,7 +180,7 @@ export const signOut = async ({ accessToken }: { accessToken: string }): Promise
         }
     })
     if (request.status !== 200) {
-        const data = await request.json() as ErrorResponse
+        const data = await request.json() as IErrorResponse
         throw new Error(data.message)
     }
     return await request.json() as string

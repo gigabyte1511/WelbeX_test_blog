@@ -11,8 +11,9 @@ import { type IPost } from '../types/PostType'
 import { useSelector } from 'react-redux'
 import { useTokenRefresh } from '../customHooks/useTokenRefresh'
 import { useState } from 'react'
+import { type ReduxState } from '../redux/initialStore'
 
-const ADD_NEW_POST_QUERY_KEY = 'ADD_NEW_POST_QUERY_KEY'
+const EDIT_POST_QUERY_KEY = 'EDIT_POST_QUERY_KEY'
 
 const DataContainer = styled(Form)({
     display: 'flex',
@@ -35,15 +36,14 @@ const style = {
 
 export default function EditPost(): JSX.Element {
     const { state } = useLocation()
-    console.log(state)
-    const accessToken = useSelector((store) => store.user.accessToken)
+    const accessToken = useSelector((store: ReduxState) => store.user.accessToken)
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
     const [formData, setFormData] = useState()
 
     const { mutate } = useMutation({
-        mutationKey: [ADD_NEW_POST_QUERY_KEY],
+        mutationKey: [EDIT_POST_QUERY_KEY],
         mutationFn: updatePostByID,
         onSuccess: async () => {
             await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY])
@@ -93,11 +93,11 @@ export default function EditPost(): JSX.Element {
             .url('Not valid URL'),
         post_header: yup
             .string()
-            .max(10)
+            .max(35)
             .required('Required'),
         post_text: yup
             .string()
-            .max(10)
+            .max(60)
             .required('Required')
     })
     return (

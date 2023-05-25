@@ -12,7 +12,7 @@ export default function PostContainer({ postInfo }: Props): JSX.Element {
     return (
         <div>
             <Accordion sx={{
-                backgroundColor: '#fcebd6'
+                backgroundColor: '#f4ede4'
             }}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

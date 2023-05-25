@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getPostsCount } from '../API/api'
 
-const GET_POSTS_COUNT_QUERY_KEY = 'GET_POSTS_COUNT_QUERY_KEY'
+export const GET_POSTS_COUNT_QUERY_KEY = 'GET_POSTS_COUNT_QUERY_KEY'
 
 const Container = styled('div')({
     display: 'flex',
@@ -21,7 +21,7 @@ export default function Body(): JSX.Element {
         queryFn: getPostsCount
     })
     const [page, setPage] = useState(1)
-    const handleChange = (_event, value): void => {
+    const handleChange = (_event: unknown, value: number): void => {
         setPage(value)
     }
     if (isError) console.log('ERROR', error)
@@ -40,4 +40,7 @@ export default function Body(): JSX.Element {
             </Container>
         )
     }
+    return (
+        <div>Loading</div>
+    )
 }
