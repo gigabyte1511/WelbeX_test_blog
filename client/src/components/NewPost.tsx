@@ -48,7 +48,7 @@ export default function NewPost(): JSX.Element {
             await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY])
             navigate('/')
         },
-        onError: (error) => {
+        onError: (error: { message: string }) => {
             if (error.message === 'Unauthorized') {
                 tokenRefresh()
             }
