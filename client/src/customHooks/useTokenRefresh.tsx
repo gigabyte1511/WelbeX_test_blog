@@ -6,11 +6,15 @@ import { type ReduxState } from '../redux/initialStore'
 import { type IPost } from '../types/PostType'
 
 interface IMutate {
-  id?: string
   data: IPost
   accessToken: string
+  id?: string
 }
-export function useTokenRefresh(mutatePropFn: MutationFunction<IPostResponse, IMutate>, formData: IPost) {
+interface RefreshResponce {
+  accessToken: string
+  refreshToken: string
+}
+export function useTokenRefresh(mutatePropFn: MutationFunction<RefreshResponce, IMutate>, formData: IPost) {
   const dispatch = useDispatch()
   const refreshToken = useSelector((store: ReduxState) => store.user.refreshToken)
   const accessToken = useSelector((store: ReduxState) => store.user.accessToken)
