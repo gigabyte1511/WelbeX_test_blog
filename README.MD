@@ -19,14 +19,14 @@ Application development test from Welbex.
 
 ## API endpoints:
 ### Posts endpoints:
+
 `GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/user/refresh` - refresh JWT tokens.    
 `GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20` - get all posts.  
 `GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post/count` - get al posts count.  
 `POST https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post` - add new post.  
 `PATCH https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post/:id` - update post by post id.  
 `DELETE https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post/:id` - delete post by post id.  
-`DELETE https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post/:id` - delete post by post id.  
-`DELETE https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post/:id` - delete post by post id.  
+
 ### Sign endpoints:
 `POST https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/user/signUp` - signUp new user.  
 `POST https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/user/signIn` - user signIn.  
