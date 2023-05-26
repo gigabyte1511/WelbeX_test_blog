@@ -16,11 +16,11 @@ Application development test from Welbex.
 1. Implemented validation of form fields on the Frontend side and validation of request bodies on the Backend side using the "yup" library
 2. Hashing user passwords with bcrypt
 ## API endpoints:
-`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`. 
-`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`. 
-`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`. 
-`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`.   
-`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`. 
+`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`.  
+`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`.  
+`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`.  
+`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`.    
+`GET https://www.amazon-ec2.gigabyte-server.ru/api/v0.1/post?page=1&limits=20`.  
 ## Technology stack:
 ### Frontend
 * React
