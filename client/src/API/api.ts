@@ -138,7 +138,6 @@ export const updatePostByID = async ({ id, data, accessToken }: { id: string, da
 
 // refresh token method
 export const refresh = async (refreshToken: string): Promise<{ accessToken: string, refreshToken: string }> => {
-    console.log('refresh api')
     const request = await fetch(`${baseURL}/api/v0.1/user/refresh`, {
         method: 'GET',
         headers: {
@@ -148,7 +147,6 @@ export const refresh = async (refreshToken: string): Promise<{ accessToken: stri
     if (request.status !== 200) {
         throw new Error(request.statusText)
     }
-    console.log('refresh api - success')
     return await request.json() as { accessToken: string, refreshToken: string }
 }
 

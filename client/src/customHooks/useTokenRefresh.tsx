@@ -34,7 +34,6 @@ export function useTokenRefresh(mutatePropFn: MutationFunction<IPostResponse, IM
   })
 
   const doRefreshToken = (): void => {
-    console.log('doRefreshTokenFn')
     mutate(refreshToken)
   }
 

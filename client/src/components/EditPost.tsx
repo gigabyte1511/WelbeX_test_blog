@@ -75,7 +75,6 @@ export default function EditPost(): JSX.Element {
         post_text: state.post_text
     }
     const handleSubmit = (values: IPost): void => {
-        console.log(values)
         setFormData({
             id: state.id,
             data: {
@@ -85,7 +84,6 @@ export default function EditPost(): JSX.Element {
             },
             accessToken
         })
-        console.log(values)
         mutate({
             id: state.id,
             data: {
