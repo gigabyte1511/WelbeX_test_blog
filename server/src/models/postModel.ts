@@ -11,7 +11,7 @@ interface PostAttributes {
 }
 export interface PostInstance extends Model<PostAttributes>, PostAttributes { }
 
-interface PostWithUser extends PostInstance {
+export interface PostWithUser extends PostInstance {
   user: UserInstance
 }
 
@@ -26,6 +26,6 @@ export const PostModel = sequelize.define<PostInstance>('post', {
   },
   post_previewURL: {
     type: DataTypes.STRING,
-    defaultValue: 'https://previews.123rf.com/images/jauhari1/jauhari11912/jauhari1191200030/138578675-microcontroller-iot-development-illustration-as-eps-10-file.jpg'
+    defaultValue: 'https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg'
   }
 })
