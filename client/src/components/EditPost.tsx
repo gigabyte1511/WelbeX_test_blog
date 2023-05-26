@@ -63,6 +63,7 @@ export default function EditPost(): JSX.Element {
             }
         }
     })
+    // @ts-expect-error
     const tokenRefresh = useTokenRefresh(mutate, formData)
 
     const handleClose = (): void => {

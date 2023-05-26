@@ -22,6 +22,7 @@ export function useTokenRefresh(mutatePropFn: MutationFunction<IPostResponse, IM
       console.log('useTokenRefresh - Success refresh', data)
       dispatch(setAccessToken(data.accessToken))
       dispatch(setRefreshToken(data.refreshToken))
+      // @ts-expect-error
       mutatePropFn({ ...formData, accessToken })
     },
     onError: (error) => {
