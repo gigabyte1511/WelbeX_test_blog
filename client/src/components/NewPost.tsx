@@ -56,6 +56,7 @@ export default function NewPost(): JSX.Element {
             navigate('/')
         },
         onError: (error: { message: string }) => {
+            console.log('Error', error.message)
             if (error.message === 'Unauthorized') {
                 tokenRefresh()
             }

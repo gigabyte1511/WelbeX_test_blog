@@ -90,6 +90,9 @@ export const addNewPost = async ({ data, accessToken }: { data: IPost, accessTok
         },
         body: JSON.stringify(data)
     })
+    if (request.status === 401) {
+        throw new Error(request.statusText)
+    }
     if (request.status !== 200) {
         const data = await request.json() as IErrorResponse
         throw new Error(data.message)
