@@ -7,8 +7,8 @@ import { type IPost } from '../types/PostType'
 
 interface IMutate {
   accessToken: string
-  data?: IPost
-  id?: string
+  data: IPost
+  id: string
 }
 
 export function useTokenRefresh(mutatePropFn: MutationFunction<IPostResponse, IMutate>, formData?: IPost) {
