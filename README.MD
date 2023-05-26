@@ -1,7 +1,7 @@
 # Welbex test blog app
 Application development test from Welbex. 
 
-### [Go](https://welbe-x-test-blog-i224hv6t5-gigabyte1511.vercel.app/ "Необязательная подсказка") to the Versel environments to see release version of the application
+### [Go](https://welbe-x-test-blog-r616ls5z9-gigabyte1511.vercel.app/ "Необязательная подсказка") to the Versel environments to see release version of the application
 
 ## Implemented:
 ### By task
