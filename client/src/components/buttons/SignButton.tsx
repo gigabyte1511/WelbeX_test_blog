@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { removeAccessToken, removeRefreshToken, removeUserID } from '../../redux/slices/userSlice'
@@ -10,6 +10,9 @@ export default function SignButton(): JSX.Element {
     const queryClient = useQueryClient()
     const accessToken = useSelector((store: ReduxState) => store.user.accessToken)
     const dispatch = useDispatch()
+
+    const logInLabel = <Typography variant='h6'>Log Out</Typography>
+    const logOutLabel = <Typography variant='h6'>Log In</Typography>
 
     const logIn = (): void => {
         navigate('sign')
@@ -25,8 +28,8 @@ export default function SignButton(): JSX.Element {
 
     const navigate = useNavigate()
     return (
-        <Button color="inherit" onClick={(accessToken) ? logOut : logIn}>
-            {(accessToken) ? 'LOG OUT' : 'LOG IN'}
+        <Button variant="outlined" color="inherit" onClick={(accessToken) ? logOut : logIn}>
+            {(accessToken) ? logInLabel : logOutLabel}
         </Button >
     )
 }
