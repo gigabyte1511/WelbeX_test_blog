@@ -104,7 +104,7 @@ export default function EditPost(): JSX.Element {
             .required('Required'),
         post_text: yup
             .string()
-            .max(60)
+            .max(90)
             .required('Required')
     })
     return (
