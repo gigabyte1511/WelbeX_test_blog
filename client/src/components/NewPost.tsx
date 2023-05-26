@@ -53,7 +53,8 @@ export default function NewPost(): JSX.Element {
         mutationKey: [ADD_NEW_POST_QUERY_KEY],
         mutationFn: addNewPost,
         onSuccess: async () => {
-            await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY, GET_POSTS_COUNT_QUERY_KEY])
+            await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY])
+            await queryClient.invalidateQueries([GET_POSTS_COUNT_QUERY_KEY])
             navigate('/')
         },
         onError: (error: { message: string }) => {
