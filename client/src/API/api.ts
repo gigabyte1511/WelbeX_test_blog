@@ -44,8 +44,8 @@ interface IUserSiInResponse extends IUserSignUpResponse {
     accessToken: string
 }
 
-// const baseURL = 'https://www.amazon-ec2.gigabyte-server.ru'
-const baseURL = 'http://localhost:3050'
+const baseURL = 'https://www.amazon-ec2.gigabyte-server.ru'
+// const baseURL = 'http://localhost:3050'
 
 // get all posts from server
 export const getAllPosts = async ({ queryKey }: IAllPostsQueryParams): Promise<IPostResponse[]> => {
