@@ -35,7 +35,7 @@ export const signUp = async (req: SignUpRequest, res: Response): Promise<void> =
     }
     res
       .status(400)
-      .json({ error: 'Этот email-адрес уже используется' })
+      .json({ error: 'This email already used' })
   } catch (error) {
     console.log(error)
     res
@@ -60,7 +60,9 @@ export const signIn = async (req: SignInRequest, res: Response): Promise<void> =
         .status(200)
         .json(authenticatedUser)
     } catch (error) {
-      res.status(400).send(error.message)
+      res
+        .status(400)
+        .json({ error: error.message })
       return
     }
   } catch (error) {

@@ -16,14 +16,13 @@ interface deletePostRequest extends Request {
 interface updatePostRequest extends Request {
   userID: string
   body: IPost
-
 }
 
 export const getAllPosts = async (req: Request, res: Response): Promise<void> => {
   const limit = (req.query.limits !== undefined) ? Number(req.query.limits) : undefined
   const offset = (req.query.page !== undefined) ? (Number(req.query.page) - 1) * Number(req.query.limits) : undefined
   try {
-    const alllPosts = await PostModel.findAll({
+    const allPosts = await PostModel.findAll({
       limit,
       offset,
       include: {
@@ -34,36 +33,49 @@ export const getAllPosts = async (req: Request, res: Response): Promise<void> =>
     })
     res
       .status(200)
-      .json(alllPosts)
+      .json(allPosts)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
   }
 }
 
-export const getPostByID = async (req: Request, res: Response): Promise<void> => {
+// get posts count from server
+export const getPostsCount = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id } = req.params
-    const postByID = await PostModel.findByPk(id, {
-      include: {
-        model: UserModel,
-        attributes: { exclude: ['password', 'refreshToken', 'createdAt', 'updatedAt'] }
-      }
-    })
-    if (postByID == null) {
-      res
-        .status(400)
-        .json('Post not found')
-      return
-    }
+    const count = await PostModel.count()
     res
       .status(200)
-      .json(postByID)
+      .json({ posts_count: count })
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
   }
 }
+
+// export const getPostByID = async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const { id } = req.params
+//     const postByID = await PostModel.findByPk(id, {
+//       include: {
+//         model: UserModel,
+//         attributes: { exclude: ['password', 'refreshToken', 'createdAt', 'updatedAt'] }
+//       }
+//     })
+//     if (postByID == null) {
+//       res
+//         .status(400)
+//         .json('Post not found')
+//       return
+//     }
+//     res
+//       .status(200)
+//       .json(postByID)
+//   } catch (error) {
+//     console.log(error)
+//     res.sendStatus(500)
+//   }
+// }
 
 export const addNewPost = async (req: addNewPostRequest, res: Response): Promise<void> => {
   try {
