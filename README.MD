@@ -16,6 +16,8 @@ Application development test from Welbex.
 1. Implemented validation of form fields on the Frontend side and validation of request bodies on the Backend side using the "yup" library
 2. Hashing user passwords with bcrypt
 3. Сhecking new user email for uniqueness during SignUp
+### To Be Implemented:
+1. Swagger OpenAPI
 
 ## API endpoints:
 ### Posts endpoints:
