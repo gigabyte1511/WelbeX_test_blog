@@ -15,7 +15,8 @@ Application development test from Welbex.
 ### Addition
 1. Implemented validation of form fields on the Frontend side and validation of request bodies on the Backend side using the "yup" library
 2. Hashing user passwords with bcrypt
-
+## Implemented:
+`dsfdsfassdfa`
 ## Technology stack:
 ### Frontend
 * React
