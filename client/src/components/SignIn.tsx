@@ -59,7 +59,7 @@ export default function SignIn(): JSX.Element {
             .required('Required'),
         password: yup
             .string()
-            .max(10)
+            .max(20)
             .required('Required')
     })
     return (

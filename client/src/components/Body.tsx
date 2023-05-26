@@ -12,7 +12,6 @@ const Container = styled('div')({
     alignItems: 'center',
     gap: 10,
     padding: 10
-
 })
 
 export default function Body(): JSX.Element {
@@ -26,8 +25,6 @@ export default function Body(): JSX.Element {
     }
     if (isError) console.log('ERROR', error)
     if (isSuccess) {
-        console.log(data)
-        console.log(data.posts_count / 20)
         return (
             <Container>
                 <Stack spacing={2}>

@@ -55,7 +55,7 @@ export default function SignUp(): JSX.Element {
     const YupValidation = yup.object().shape({
         username: yup
             .string()
-            .max(10)
+            .max(15)
             .required('Required'),
         email: yup
             .string()
@@ -63,7 +63,7 @@ export default function SignUp(): JSX.Element {
             .required('Required'),
         password: yup
             .string()
-            .max(10)
+            .max(20)
             .required('Required')
     })
     return (
