@@ -55,7 +55,8 @@ export default function EditPost(): JSX.Element {
         mutationKey: [EDIT_POST_QUERY_KEY],
         mutationFn: updatePostByID,
         onSuccess: async () => {
-            await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY, GET_POSTS_COUNT_QUERY_KEY])
+            await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY])
+            await queryClient.invalidateQueries([GET_POSTS_COUNT_QUERY_KEY])
             navigate('/')
         },
         onError: (error: { message: string }) => {
