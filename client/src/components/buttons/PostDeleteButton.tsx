@@ -34,11 +34,7 @@ export default function PostDeleteButton({ postInfo }: Props): JSX.Element {
         }
     })
 
-    const tokenRefresh = useTokenRefresh(mutate, {
-        // @ts-expect-error
-        id: postInfo.id,
-        accessToken
-    })
+    const tokenRefresh = useTokenRefresh(mutate)
 
     let isDisabled = true
     if (accessToken && (userID === postInfo.user.id)) isDisabled = false

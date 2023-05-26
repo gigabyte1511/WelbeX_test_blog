@@ -11,7 +11,7 @@ interface IMutate {
   id?: string
 }
 
-export function useTokenRefresh(mutatePropFn: MutationFunction<IPostResponse, IMutate>, formData: IPost) {
+export function useTokenRefresh(mutatePropFn: MutationFunction<IPostResponse, IMutate>, formData?: IPost) {
   const dispatch = useDispatch()
   const refreshToken = useSelector((store: ReduxState) => store.user.refreshToken)
   const accessToken = useSelector((store: ReduxState) => store.user.accessToken)
