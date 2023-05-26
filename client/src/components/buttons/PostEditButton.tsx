@@ -21,12 +21,7 @@ export default function PostEditButton({ postInfo }: Props): JSX.Element {
             color="secondary"
             aria-label="add"
             size="small"
-            disabled={isDisabled}
-            sx={{
-                position: 'absolute',
-                right: '5%',
-                transform: 'translate(-50%)'
-            }}>
+            disabled={isDisabled}>
             <EditIcon />
         </Fab>
     )

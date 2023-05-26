@@ -6,8 +6,8 @@ import { type ReduxState } from '../redux/initialStore'
 import { type IPost } from '../types/PostType'
 
 interface IMutate {
-  data: IPost
   accessToken: string
+  data?: IPost
   id?: string
 }
 

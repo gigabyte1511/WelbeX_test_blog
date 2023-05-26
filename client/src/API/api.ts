@@ -101,15 +101,18 @@ export const addNewPost = async ({ data, accessToken }: { data: IPost, accessTok
 }
 
 // delete post from server by post id
-export const deletePostByID = async ({ id, token }: { id: number, token: string }): Promise<string> => {
+export const deletePostByID = async ({ id, accessToken }: { id: string, accessToken: string }): Promise<string> => {
     const request = await fetch(`${baseURL}/api/v0.1/post/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
-            authorization: `Bearer ${token}`
+            authorization: `Bearer ${accessToken}`
 
         }
     })
+    if (request.status === 401) {
+        throw new Error(request.statusText)
+    }
     if (request.status !== 200) {
         const data = await request.json() as IErrorResponse
         throw new Error(data.message)

@@ -1,13 +1,19 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, styled } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { PostInfoContainer } from './PostInfoContainer'
 import PostDetailContainer from './PostDetailContainer'
 import PostEditButton from './buttons/PostEditButton'
 import { type IPostResponse } from '../API/api'
+import PostDeleteButton from './buttons/PostDeleteButton'
 
+const ButtonContainer = styled('div')({
+    display: 'flex',
+    justifyContent: 'center'
+})
 interface Props {
     postInfo: IPostResponse
 }
+
 export default function PostContainer({ postInfo }: Props): JSX.Element {
     return (
         <div>
@@ -26,7 +32,15 @@ export default function PostContainer({ postInfo }: Props): JSX.Element {
                     }}>
                         <PostInfoContainer postInfo={postInfo} />
                         <Typography variant='h5'>{postInfo.post_header}</Typography>
-                        <PostEditButton postInfo={postInfo} />
+                        <ButtonContainer
+                            sx={{
+                                position: 'absolute',
+                                right: '5%',
+                                transform: 'translate(-50%)'
+                            }}>
+                            <PostEditButton postInfo={postInfo} />
+                            <PostDeleteButton postInfo={postInfo} />
+                        </ButtonContainer>
                     </Box>
                 </AccordionSummary>
                 <AccordionDetails>
