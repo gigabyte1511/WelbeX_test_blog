@@ -1,18 +1,18 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { PostInfoContainer } from './PostInfoContainer'
-import { type PostFromDB } from '../API/api'
 import PostDetailContainer from './PostDetailContainer'
 import PostEditButton from './buttons/PostEditButton'
+import { type IPostResponse } from '../API/api'
 
 interface Props {
-    postInfo: PostFromDB
+    postInfo: IPostResponse
 }
 export default function PostContainer({ postInfo }: Props): JSX.Element {
     return (
         <div>
             <Accordion sx={{
-                backgroundColor: '#fcebd6'
+                backgroundColor: '#f4ede4'
             }}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

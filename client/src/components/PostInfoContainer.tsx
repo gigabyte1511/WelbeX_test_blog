@@ -1,5 +1,5 @@
 import { Typography, styled } from '@mui/material'
-import { type PostFromDB } from '../API/api'
+import { type IPostResponse } from '../API/api'
 
 const Container = styled('div')({
     display: 'flex',
@@ -8,7 +8,7 @@ const Container = styled('div')({
 })
 
 interface Props {
-    postInfo: PostFromDB
+    postInfo: IPostResponse
 }
 export function PostInfoContainer({ postInfo }: Props): JSX.Element {
     const date = new Date(postInfo.createdAt)

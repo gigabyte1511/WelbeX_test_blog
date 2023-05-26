@@ -11,6 +11,7 @@ import { type IPost } from '../types/PostType'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useTokenRefresh } from '../customHooks/useTokenRefresh'
+import { type ReduxState } from '../redux/initialStore'
 
 export const ADD_NEW_POST_QUERY_KEY = 'ADD_NEW_POST_QUERY_KEY'
 
@@ -34,11 +35,18 @@ const style = {
 }
 
 export default function NewPost(): JSX.Element {
-    const accessToken = useSelector((store) => store.user.accessToken)
+    const accessToken = useSelector((store: ReduxState) => store.user.accessToken)
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const [formData, setFormData] = useState()
+    const [formData, setFormData] = useState<{ data: IPost, accessToken: string }>({
+        data: {
+            post_previewURL: '',
+            post_header: '',
+            post_text: ''
+        },
+        accessToken: ''
+    })
 
     const { mutate } = useMutation({
         mutationKey: [ADD_NEW_POST_QUERY_KEY],
@@ -47,18 +55,24 @@ export default function NewPost(): JSX.Element {
             await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY])
             navigate('/')
         },
-        onError: (error) => {
+        onError: (error: { message: string }) => {
+            console.log('Error', error.message)
             if (error.message === 'Unauthorized') {
                 tokenRefresh()
             }
         }
     })
+    // @ts-expect-error
     const tokenRefresh = useTokenRefresh(mutate, formData)
 
     const handleClose = (): void => {
         navigate(-1)
     }
-    const initialValue: IPost = {}
+    const initialValue: IPost = {
+        post_previewURL: '',
+        post_header: '',
+        post_text: ''
+    }
     const handleSubmit = (values: IPost): void => {
         setFormData({
             data: {
