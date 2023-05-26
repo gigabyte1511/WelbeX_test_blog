@@ -35,7 +35,6 @@ export default function PostDeleteButton({ postInfo }: Props): JSX.Element {
     })
     // @ts-expect-error
     const tokenRefresh = useTokenRefresh(mutate, {
-        // @ts-expect-error
         id: postInfo.id,
         accessToken
     })
