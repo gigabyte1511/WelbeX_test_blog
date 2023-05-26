@@ -2,15 +2,16 @@ import { Fab } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { type PostFromDB } from '../../API/api'
+import { type ReduxState } from '../../redux/initialStore'
+import { type IPostResponse } from '../../API/api'
 
 interface Props {
-    postInfo: PostFromDB
+    postInfo: IPostResponse
 }
 
 export default function PostEditButton({ postInfo }: Props): JSX.Element {
-    const accessToken = useSelector((store) => store.user.accessToken)
-    const userID = useSelector((store) => store.user.id)
+    const accessToken = useSelector((store: ReduxState) => store.user.accessToken)
+    const userID = useSelector((store: ReduxState) => store.user.id)
     let isDisabled = true
     if (accessToken && (userID === postInfo.user.id)) isDisabled = false
 

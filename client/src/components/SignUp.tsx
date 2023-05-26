@@ -38,11 +38,14 @@ export default function SignUp(): JSX.Element {
             dispatch(setUserID(data.id))
             navigate('/')
         },
-        onError: (error) => { console.log('Error', error) }
+        onError: (error: { message: string }) => { console.log('Error', error) }
     })
-    const initialValue: IUser = {}
+    const initialValue: IUser = {
+        username: '',
+        email: '',
+        password: ''
+    }
     const handleSubmit = (values: IUser): void => {
-        // console.log(values)
         mutate({
             username: values.username,
             email: values.email,
@@ -52,7 +55,7 @@ export default function SignUp(): JSX.Element {
     const YupValidation = yup.object().shape({
         username: yup
             .string()
-            .max(10)
+            .max(15)
             .required('Required'),
         email: yup
             .string()
@@ -60,7 +63,7 @@ export default function SignUp(): JSX.Element {
             .required('Required'),
         password: yup
             .string()
-            .max(10)
+            .max(20)
             .required('Required')
     })
     return (

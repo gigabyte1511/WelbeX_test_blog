@@ -5,14 +5,15 @@ import { ErrorMessage, Form, Formik } from 'formik'
 import { TextField, Typography, styled } from '@mui/material'
 import * as yup from 'yup'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { updatePostByID } from '../API/api'
+import { type IPostResponse, updatePostByID } from '../API/api'
 import { GET_ALLPOSTS_QUERY_KEY } from './PostsAccordion'
 import { type IPost } from '../types/PostType'
 import { useSelector } from 'react-redux'
 import { useTokenRefresh } from '../customHooks/useTokenRefresh'
 import { useState } from 'react'
+import { type ReduxState } from '../redux/initialStore'
 
-const ADD_NEW_POST_QUERY_KEY = 'ADD_NEW_POST_QUERY_KEY'
+const EDIT_POST_QUERY_KEY = 'EDIT_POST_QUERY_KEY'
 
 const DataContainer = styled(Form)({
     display: 'flex',
@@ -34,27 +35,35 @@ const style = {
 }
 
 export default function EditPost(): JSX.Element {
-    const { state } = useLocation()
-    console.log(state)
-    const accessToken = useSelector((store) => store.user.accessToken)
+    const { state }: { state: IPostResponse } = useLocation()
+    const accessToken = useSelector((store: ReduxState) => store.user.accessToken)
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const [formData, setFormData] = useState()
+    const [formData, setFormData] = useState<{ id: string, data: IPost, accessToken: string }>({
+        id: '',
+        data: {
+            post_previewURL: '',
+            post_header: '',
+            post_text: ''
+        },
+        accessToken: ''
+    })
 
     const { mutate } = useMutation({
-        mutationKey: [ADD_NEW_POST_QUERY_KEY],
+        mutationKey: [EDIT_POST_QUERY_KEY],
         mutationFn: updatePostByID,
         onSuccess: async () => {
             await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY])
             navigate('/')
         },
-        onError: (error) => {
+        onError: (error: { message: string }) => {
             if (error.message === 'Unauthorized') {
                 tokenRefresh()
             }
         }
     })
+    // @ts-expect-error
     const tokenRefresh = useTokenRefresh(mutate, formData)
 
     const handleClose = (): void => {
@@ -93,11 +102,11 @@ export default function EditPost(): JSX.Element {
             .url('Not valid URL'),
         post_header: yup
             .string()
-            .max(10)
+            .max(35)
             .required('Required'),
         post_text: yup
             .string()
-            .max(10)
+            .max(60)
             .required('Required')
     })
     return (

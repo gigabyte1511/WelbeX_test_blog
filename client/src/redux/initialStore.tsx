@@ -16,8 +16,9 @@ export function getInitialState(): ReduxState {
             id: ''
         }
     }
-    if (localStorage.getItem('state') !== null) {
-        const { user } = JSON.parse(localStorage.getItem('state')) as ReduxState
+    const localStorageState = localStorage.getItem('state')
+    if (localStorageState !== null) {
+        const { user } = JSON.parse(localStorageState) as ReduxState
         initialState.user.accessToken = user.accessToken
         initialState.user.refreshToken = user.refreshToken
         initialState.user.id = user.id

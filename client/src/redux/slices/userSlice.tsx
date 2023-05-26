@@ -1,15 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { getInitialState } from '../initialStore'
 
 const userSlice = createSlice({
     name: 'user',
     initialState: { accessToken: getInitialState().user.accessToken, refreshToken: getInitialState().user.refreshToken, id: getInitialState().user.id },
     reducers: {
-        setAccessToken: (state, action) => ({ ...state, accessToken: action.payload }),
+        setAccessToken: (state, action: PayloadAction<string>) => ({ ...state, accessToken: action.payload }),
         removeAccessToken: (state) => ({ ...state, accessToken: '' }),
-        setRefreshToken: (state, action) => ({ ...state, refreshToken: action.payload }),
+        setRefreshToken: (state, action: PayloadAction<string>) => ({ ...state, refreshToken: action.payload }),
         removeRefreshToken: (state) => ({ ...state, refreshToken: '' }),
-        setUserID: (state, action) => ({ ...state, id: action.payload }),
+        setUserID: (state, action: PayloadAction<string>) => ({ ...state, id: action.payload }),
         removeUserID: (state) => ({ ...state, id: '' })
 
     }
