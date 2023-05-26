@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { useTokenRefresh } from '../customHooks/useTokenRefresh'
 import { useState } from 'react'
 import { type ReduxState } from '../redux/initialStore'
+import { GET_POSTS_COUNT_QUERY_KEY } from './Body'
 
 const EDIT_POST_QUERY_KEY = 'EDIT_POST_QUERY_KEY'
 
@@ -54,7 +55,7 @@ export default function EditPost(): JSX.Element {
         mutationKey: [EDIT_POST_QUERY_KEY],
         mutationFn: updatePostByID,
         onSuccess: async () => {
-            await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY])
+            await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY, GET_POSTS_COUNT_QUERY_KEY])
             navigate('/')
         },
         onError: (error: { message: string }) => {
@@ -104,7 +105,7 @@ export default function EditPost(): JSX.Element {
             .required('Required'),
         post_text: yup
             .string()
-            .max(90)
+            .max(110)
             .required('Required')
     })
     return (

@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useTokenRefresh } from '../customHooks/useTokenRefresh'
 import { type ReduxState } from '../redux/initialStore'
+import { GET_POSTS_COUNT_QUERY_KEY } from './Body'
 
 export const ADD_NEW_POST_QUERY_KEY = 'ADD_NEW_POST_QUERY_KEY'
 
@@ -52,7 +53,7 @@ export default function NewPost(): JSX.Element {
         mutationKey: [ADD_NEW_POST_QUERY_KEY],
         mutationFn: addNewPost,
         onSuccess: async () => {
-            await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY])
+            await queryClient.invalidateQueries([GET_ALLPOSTS_QUERY_KEY, GET_POSTS_COUNT_QUERY_KEY])
             navigate('/')
         },
         onError: (error: { message: string }) => {
@@ -102,7 +103,7 @@ export default function NewPost(): JSX.Element {
             .required('Required'),
         post_text: yup
             .string()
-            .max(90)
+            .max(110)
             .required('Required')
     })
     return (
