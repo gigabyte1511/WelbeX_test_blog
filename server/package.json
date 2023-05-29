@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "node app.js",
+    "start": "node build/index.js",
+    "dev": "tsc -watch",
     "build": "tsc"
   },
   "keywords": [],
