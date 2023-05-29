@@ -1,6 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # Server
+#   build
+/server/build
 #   dependencies
 /server/node_modules
 #   .env
