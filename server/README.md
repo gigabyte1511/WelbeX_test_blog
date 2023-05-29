@@ -1,2 +1,0 @@
-# MyIOT Manager
-## Backend - side
